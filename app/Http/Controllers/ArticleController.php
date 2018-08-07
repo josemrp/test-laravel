@@ -24,7 +24,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return "create";
+        return view('article.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
