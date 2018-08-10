@@ -45,6 +45,10 @@
         </tbody>
     </table>
 
+    <div>
+        {{ $articles->links() }}
+    </div>
+
 @endsection
 
 @section('script')
