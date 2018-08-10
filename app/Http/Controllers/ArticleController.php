@@ -14,7 +14,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article.index');
+        $articles = Article::all();
+        return view('article.index', ['articles' => $articles]);
         
     }
 
@@ -64,7 +65,8 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return "edit $id";
+        $article = Article::find($id);
+        return view('article.edit', ['article' => $article]);
     }
 
     /**
@@ -76,7 +78,13 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->image = $request->image;
+
+        $article->save();
     }
 
     /**
