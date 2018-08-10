@@ -25,12 +25,19 @@
             @foreach ($articles as $article)
                 <tr>
                     <td>{{ $article->id }}</td>
-                    <td><strong>{{ $article->title }}</strong></td>
+                    <td>
+                        <a href="{{ route('article.show', $article->id ) }}">
+                            <strong>{{ $article->title }}</strong>
+                        </a>
+                    </td>
                     <td class="text-center">
                         <div class="btn-group">
                             <a href="{{ route('article.edit', $article->id ) }}" class="btn btn-success">E</a>
-                            <a href="{{ route('article.show', $article->id ) }}" class="btn btn-info">V</a>
-                            <button class="btn btn-danger">D</button>
+                            <button class="btn btn-danger"
+                                onclick="deleteArticle({{ $article->id }})"
+                            >
+                                D
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -38,6 +45,23 @@
         </tbody>
     </table>
 
-    
+@endsection
 
+@section('script')
+    <script>
+        function deleteArticle(id) {
+            $.ajax({
+                url: "{{ route('article.index') }}" + '/' + id, 
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
+            }).done((r) => {
+                if(r === '') 
+                    window.location.reload()
+            }).always((r) => {
+                dd(r);
+            });
+        }
+    </script>
 @endsection

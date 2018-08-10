@@ -54,7 +54,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return "show $id";
+        $article = Article::find($id);
+        return view('article.view', ['article' => $article]);
     }
 
     /**
@@ -95,6 +96,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+        $article->delete();
     }
 }
