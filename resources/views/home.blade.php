@@ -26,11 +26,5 @@
     <div>
         {{ $articles->links() }}
     </div>
-    
-@endsection
-
-@section('aside')
-
-    
 
 @endsection

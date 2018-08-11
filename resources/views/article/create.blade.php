@@ -4,6 +4,8 @@
 
 @section('content')
 
+    <h3>@yield('title')</h3>
+
     <form id="main-form">
         @csrf
         <div class="form-group">
