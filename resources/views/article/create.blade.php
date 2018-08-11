@@ -67,10 +67,28 @@
     <script>
         $('#submit-btn').click((e) => {
             e.preventDefault();
+            var data = new FormData();
+
+            //Get all Form data
+            var mainForm = $('#main-form').serializeArray();
+            var asideForm = $('#aside-form').serializeArray();
+            var _data = mainForm.concat(asideForm);
+            $.each(_data, function(key, input){
+                data.append(input.name, input.value);
+            });
+
+            //Get files
+            $.each($('input[type=file]')[0].files, function(i, file) {
+                data.append('image', file);
+            });
+
             $.ajax({
                 url: "{{ route('article.store') }}",
                 method: 'POST',
-                data: $('#main-form').serialize() + '&' + $('#aside-form').serialize()
+                cache: false,
+                contentType: false,
+                processData: false,
+                data
             }).done((r) => {
                 if(r === '') 
                     window.location.replace("{{ route('article.index') }}");

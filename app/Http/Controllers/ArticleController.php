@@ -14,7 +14,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(15);
+        $articles = Article::orderBy('id', 'desc')->paginate(8);
         return view('article.index', ['articles' => $articles]);        
     }
 
@@ -40,7 +40,11 @@ class ArticleController extends Controller
 
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->image = $request->image;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $article->image = $request->file('image')->getClientOriginalName();
+            $z = $request->file('image')->move(public_path('img\article'), $article->image);
+        }
 
         $article->save();
     }
