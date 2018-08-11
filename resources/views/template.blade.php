@@ -36,7 +36,7 @@
         </div>
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script>function dd(x) {console.log(x)}function ddw(x) {document.write(x)}</script>
+    <script>function dd(x) {console.log(x)}function ddw(x) {document.write(x)}function ddj(x) {dd(JSON.parse(x))}</script>
     @yield('script')
 </body>
 </html>

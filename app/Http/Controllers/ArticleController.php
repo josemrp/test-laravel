@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+use App\Tag;
 
 class ArticleController extends Controller
 {
@@ -36,17 +37,30 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        //Insert Article
         $article = new Article();
 
         $article->title = $request->title;
         $article->content = $request->content;
 
+            //Store image
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $article->image = $request->file('image')->getClientOriginalName();
             $z = $request->file('image')->move(public_path('img\article'), $article->image);
         }
 
         $article->save();
+
+
+        //Insert and Attach tags 
+        $tags = explode(',', $request->tags);
+        foreach($tags as &$t) {
+            //Insert if not exist
+            $tag = Tag::firstOrCreate(['name' => $t]);
+
+            //Attach
+            $article->tags()->attach($tag->id);
+        }
     }
 
     /**
