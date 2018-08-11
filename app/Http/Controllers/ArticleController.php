@@ -8,6 +8,12 @@ use App\Tag;
 
 class ArticleController extends Controller
 {
+    public function home()
+    {
+        $articles = Article::orderBy('id', 'desc')->paginate(5);
+        return view('home', ['articles' => $articles]);
+    }
+
     /**
      * Display a listing of the resource.
      *
