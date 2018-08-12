@@ -52,7 +52,7 @@ class ArticleController extends Controller
             //Store image
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $article->image = $request->file('image')->getClientOriginalName();
-            $z = $request->file('image')->move(public_path('img\article'), $article->image);
+            $request->file('image')->move(public_path('img\article'), $article->image);
         }
 
         $article->save();
@@ -120,6 +120,19 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::find($id);
+        $article->tags()->detach();
         $article->delete();
+    }
+
+    /**
+     * Upload a single file with POST method
+     * 
+     * @param   \Illuminate\Http\Request  $request
+     */
+    public function uploadImage(Request $request) {
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $name = $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('img\article'), $name);
+        }
     }
 }

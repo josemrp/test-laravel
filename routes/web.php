@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +16,7 @@
 Route::get('/', 'ArticleController@home')->name('home');
 
 Route::resource('article', 'ArticleController');
+Route::post('article/upload/image', 'ArticleController@uploadImage')->name('article.upload.image');
 
 
 
