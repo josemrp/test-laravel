@@ -9,21 +9,42 @@ use App\Tag;
 
 class ArticleController extends Controller
 {
-    public function home()
+    /**
+     * Display all articles in the main page 
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function home(Request $request)
     {
-        $articles = Article::orderBy('id', 'desc')->paginate(5);
-        return view('home', ['articles' => $articles]);
+        $data = [];
+        if(isset($request->search)) {
+            $articles = Article::search($request->search)->paginate(5);
+            $data['search'] = $request->search;
+        } else {
+            $articles = Article::orderBy('id', 'desc')->paginate(5);
+        }
+        $data['articles'] = $articles;
+        return view('home', $data);
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::orderBy('id', 'desc')->paginate(8);
-        return view('article.index', ['articles' => $articles]);        
+        $data = [];
+        if(isset($request->search)) {
+            $articles = Article::search($request->search)->paginate(8);
+            $data['search'] = $request->search;
+        } else {
+            $articles = Article::orderBy('id', 'desc')->paginate(8);
+        }
+        $data['articles'] = $articles;
+        return view('article.index', $data);        
     }
 
     /**

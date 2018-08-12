@@ -9,7 +9,7 @@
     <title>@yield('title', 'Test Laravel')</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-sm navbar-light border-bottom shadow mb-4" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="{{ route('home') }}">Blog</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,7 +33,19 @@
             </div>
             <div class="col-sm-3">
                 @section('aside')
-                    Hola muundo
+                    <div class="p-2 border rounded shadow" style="background-color: #e3f2fd;">
+                        <form action="" method="get">
+                            <div class="form-group">
+                                <label class="h4" for="search">Search: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="search" placeholder="Search" aria-describedby="search-btn">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-info" type="submit" id="search-btn">&#x27A4;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 @show
             </div>
         </div>

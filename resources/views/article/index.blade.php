@@ -46,7 +46,11 @@
     </table>
 
     <div>
-        {{ $articles->links() }}
+        @isset($search)
+            {{ $articles->appends(['search' => $search])->links() }}
+        @else
+            {{ $articles->links() }}
+        @endisset
     </div>
 
 @endsection
