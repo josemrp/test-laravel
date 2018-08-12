@@ -28,10 +28,10 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-md-9">
                 @yield('content')
             </div>
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 @section('aside')
                     <div class="p-2 border rounded shadow" style="background-color: #e3f2fd;">
                         <form action="" method="get">
@@ -45,6 +45,12 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="p-2 mt-4 border rounded shadow">
+                        <h4>Tags</h4>
+                        @foreach($tags as $tag)
+                            <a href="#" class="badge badge-info">{{ $tag->name }}</a>
+                        @endforeach
                     </div>
                 @show
             </div>
