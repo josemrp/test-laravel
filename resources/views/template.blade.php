@@ -46,12 +46,14 @@
                             </div>
                         </form>
                     </div>
-                    <div class="p-2 mt-4 border rounded shadow">
-                        <h4>Tags</h4>
-                        @foreach($tags as $tag)
-                            <a href="#" class="badge badge-info">{{ $tag->name }}</a>
-                        @endforeach
-                    </div>
+                    @isset($tags)
+                        <div class="p-2 mt-4 border rounded shadow">
+                            <h4>Tags</h4>
+                            @foreach($tags as $tag)
+                                <a href="?tag={{ $tag->name }}" class="badge badge-info">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
+                    @endisset
                 @show
             </div>
         </div>

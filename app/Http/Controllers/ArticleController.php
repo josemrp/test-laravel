@@ -17,10 +17,20 @@ class ArticleController extends Controller
      */
     public function home(Request $request)
     {
+        //dd($request);
         $data = [];
         if(isset($request->search)) {
             $articles = Article::search($request->search)->paginate(5);
             $data['search'] = $request->search;
+        } else if(isset($request->tag)) {
+            //Simple method
+            //$articles = Article::search($request->tag)->paginate(5);
+            $articles = Tag::where('name', $request->tag)
+                            ->firstOrFail()
+                            ->articles()
+                            ->orderBy('id', 'desc')
+                            ->paginate(5);
+            $data['tagFilter'] = $request->tag;
         } else {
             $articles = Article::orderBy('id', 'desc')->paginate(5);
         }
@@ -40,6 +50,15 @@ class ArticleController extends Controller
         if(isset($request->search)) {
             $articles = Article::search($request->search)->paginate(8);
             $data['search'] = $request->search;
+        } else if(isset($request->tag)) {
+            //Method with JOINs and SQL logic
+            $articles = Article::select('articles.*')
+                            ->join('article_tag', 'articles.id', 'article_tag.article_id')
+                            ->join('tags', 'tags.id', 'article_tag.tag_id')
+                            ->where('tags.name', $request->tag)
+                            ->orderBy('id', 'desc')
+                            ->paginate(8);
+            $data['tagFilter'] = $request->tag;
         } else {
             $articles = Article::orderBy('id', 'desc')->paginate(8);
         }
@@ -84,7 +103,7 @@ class ArticleController extends Controller
         $tags = explode(',', $request->tags);
         foreach($tags as &$t) {
             //Insert if not exist
-            $tag = Tag::firstOrCreate(['name' => $t]);
+            $tag = Tag::firstOrCreate(['name' => trim($t)]);
 
             //Attach
             $article->tags()->attach($tag->id);
@@ -128,9 +147,18 @@ class ArticleController extends Controller
 
         $article->title = $request->title;
         $article->content = $request->content;
-        $article->image = $request->image;
+        if(isset($request->image))
+            $article->image = $request->image;
 
         $article->save();
+
+        //Reset all tags
+        $article->tags()->detach();
+        $tags = explode(',', $request->tags);
+        foreach($tags as &$t) {
+            $tag = Tag::firstOrCreate(['name' => trim($t)]);
+            $article->tags()->attach($tag->id);
+        }
     }
 
     /**

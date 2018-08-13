@@ -46,11 +46,13 @@
     </table>
 
     <div>
-        @isset($search)
+        @if(isset($search))
             {{ $articles->appends(['search' => $search])->links() }}
+        @elseif(isset($tagFilter))
+            {{ $articles->appends(['tag' => $tagFilter])->links() }}
         @else
             {{ $articles->links() }}
-        @endisset
+        @endif
     </div>
 
 @endsection

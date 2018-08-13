@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div>
+    <div class="mb-4 p-2 shadow-sm">
         @isset($article->image)
             <img src="{{ asset('img/article/' . $article->image) }}" alt="{{ $article->title }}" class="img-fluid">
         @endisset
