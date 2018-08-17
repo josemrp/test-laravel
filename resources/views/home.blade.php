@@ -1,36 +1,23 @@
-@extends('template')
-
-@section('title', 'Blog')
+@extends('layouts.app')
 
 @section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Dashboard</div>
 
-    <div>
-        @foreach ($articles as $article)
-            <div class="mb-4 p-2 shadow-sm">
-                @isset($article->image)
-                    <img src="{{ asset('img/article/' . $article->image) }}" alt="{{ $article->title }}" class="img-fluid">
-                @endisset
-                <h1>{{ $article->title }}</h1>
-                <div>
-                    @foreach ($article->tags as &$tag)
-                        <a href="#" class="badge badge-info">{{ $tag->name }}</a>
-                    @endforeach
-                </div>
-                <div>
-                    {{ $article->content }}
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    You are logged in!
                 </div>
             </div>
-        @endforeach
+        </div>
     </div>
-
-    <div>
-        @if(isset($search))
-            {{ $articles->appends(['search' => $search])->links() }}
-        @elseif(isset($tagFilter))
-            {{ $articles->appends(['tag' => $tagFilter])->links() }}
-        @else
-            {{ $articles->links() }}
-        @endif
-    </div>
-
+</div>
 @endsection
