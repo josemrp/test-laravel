@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ArticleController@home')->name('home');
-
 Route::resource('article', 'ArticleController');
 Route::post('article/upload/image', 'ArticleController@uploadImage')->name('article.upload.image');
 
+//Auth
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');

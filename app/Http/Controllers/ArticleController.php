@@ -9,34 +9,6 @@ use App\Tag;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display all articles in the main page 
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function home(Request $request)
-    {
-        //dd($request);
-        $data = [];
-        if(isset($request->search)) {
-            $articles = Article::search($request->search)->paginate(5);
-            $data['search'] = $request->search;
-        } else if(isset($request->tag)) {
-            //Simple method
-            //$articles = Article::search($request->tag)->paginate(5);
-            $articles = Tag::where('name', $request->tag)
-                            ->firstOrFail()
-                            ->articles()
-                            ->orderBy('id', 'desc')
-                            ->paginate(5);
-            $data['tagFilter'] = $request->tag;
-        } else {
-            $articles = Article::orderBy('id', 'desc')->paginate(5);
-        }
-        $data['articles'] = $articles;
-        return view('home', $data);
-    }
 
     /**
      * Display a listing of the resource.
